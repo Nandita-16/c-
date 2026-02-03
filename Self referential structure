@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+    
+    void display() {
+        cout << "Data: " << data << endl;
+    }
+};
+
+int main() {
+    Node n1;
+    n1.data = 100;
+    n1.next = nullptr;
+    n1.display();
+    return 0;
+}
