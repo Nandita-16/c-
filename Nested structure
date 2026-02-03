@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+struct Date {
+    int day, month, year;
+};
+
+struct Employee {
+    int id;
+    char name[30];
+    struct Date joining_date;  // Nested structure
+};
+
+int main() {
+    struct Employee emp = {1001, "John Doe", {15, 6, 2025}};
+    printf("Employee: %s, Joined: %d/%d/%d\n", 
+           emp.name, emp.joining_date.day, 
+           emp.joining_date.month, emp.joining_date.year);
+    return 0;
+}
