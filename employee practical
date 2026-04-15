@@ -1,0 +1,88 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+using namespace std;
+
+class Employee {
+private:
+    int employee_id;
+    string name;
+    float salary;
+
+public:
+    Employee() {
+        employee_id = 0;
+        name = "";
+        salary = 0;
+    }
+
+    Employee(int id, string n, float s) {
+        employee_id = id;
+        name = n;
+        salary = s;
+    }
+
+    void calculateSalary() {
+        float bonus = salary * 0.10;
+        float deduction = salary * 0.05;
+        salary = salary + bonus - deduction;
+    }
+
+    void readFromFile(ifstream &in) {
+        in >> employee_id >> name >> salary;
+    }
+
+    void writeToFile(ofstream &out) {
+        out << employee_id << " " << name << " " << salary << endl;
+    }
+
+    void display() {
+        cout << "ID: " << employee_id
+             << ", Name: " << name
+             << ", Salary: " << salary << endl;
+    }
+};
+int main() {
+    vector<Employee> employees;
+    ifstream inFile("employees.txt");
+
+    if (!inFile) {
+        cout << "Error: File not found!\n";
+        return 1;
+    }
+
+    while (inFile) {
+        Employee emp;
+        emp.readFromFile(inFile);
+
+        if (inFile) {
+            employees.push_back(emp);
+        }
+    }
+    inFile.close();
+
+    for (auto &emp : employees) {
+        emp.calculateSalary();
+    }
+
+    cout << "\nUpdated Employee Records:\n";
+    for (auto &emp : employees) {
+        emp.display();
+    }
+
+    ofstream outFile("employees_updated.txt");
+
+    if (!outFile) {
+        cout << "Error: Cannot open output file!\n";
+        return 1;
+    }
+
+    for (auto &emp : employees) {
+        emp.writeToFile(outFile);
+    }
+    outFile.close();
+
+    cout << "\nData successfully written to employees_updated.txt\n";
+
+    return 0;
+}
